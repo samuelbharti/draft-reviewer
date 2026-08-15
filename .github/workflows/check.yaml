@@ -51,6 +51,9 @@ jobs:
   gitleaks:
     name: Scan for secrets
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
     steps:
       - uses: actions/checkout@v4
         with:
@@ -58,3 +61,5 @@ jobs:
       - uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Commenting on PRs needs write access; the failing check is enough.
+          GITLEAKS_ENABLE_COMMENTS: "false"

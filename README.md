@@ -50,6 +50,10 @@ It works only through the same functions the UI buttons call, so it can never
 do anything a human click in this app could not. A suggested rewrite stays
 staged under the paragraph and changes nothing until I click Apply.
 
+The chat panel is the bring-your-own-key module from my
+[R_Shiny_modules](https://github.com/samuelbharti/R_Shiny_modules)
+repository. The copy here lives in `modules/byok_chat_mod.R`.
+
 ## Where the data goes
 
 Every review lives in `reviews/<content_id>.yml`. See `reviews/README.md`

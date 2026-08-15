@@ -1,0 +1,60 @@
+name: check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  parse-r:
+    name: Parse all R files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+      - name: Parse every .R file
+        run: |
+          Rscript -e '
+            files <- list.files(".", pattern = "[.][Rr]$", recursive = TRUE, full.names = TRUE)
+            files <- files[!grepl("(^|/)(renv|packrat)/", files)]
+            ok <- TRUE
+            for (f in files) {
+              msg <- tryCatch({ parse(f); NULL }, error = function(e) conditionMessage(e))
+              if (!is.null(msg)) { ok <- FALSE; cat(sprintf("PARSE ERROR  %s\n  %s\n", f, msg)) }
+            }
+            if (!ok) quit(status = 1)
+            cat(sprintf("All %d R files parsed OK\n", length(files)))
+          '
+
+  run-app:
+    name: App starts and serves
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+      - name: Install app dependencies
+        run: Rscript -e 'install.packages(c("shiny", "bslib", "yaml", "commonmark"))'
+      - name: Start the app and check it responds
+        run: |
+          Rscript -e 'shiny::runApp(".", port = 8123, launch.browser = FALSE)' &
+          for i in $(seq 1 30); do
+            curl -sf http://127.0.0.1:8123/ > /dev/null && break
+            sleep 2
+          done
+          curl -sf http://127.0.0.1:8123/ | grep -q "Content review"
+
+  gitleaks:
+    name: Scan for secrets
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

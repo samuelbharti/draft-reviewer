@@ -1,5 +1,9 @@
 # BYOK Chat module
 #
+# This module comes from my R_Shiny_modules repository
+# (https://github.com/samuelbharti/R_Shiny_modules, inputs/byok_chat_module).
+# That copy is the canonical one; fixes should land there first.
+#
 # A shinychat chat UI backed by a per-session ellmer Chat, with "bring your own
 # key" (BYOK) inputs: any user can paste their own Google Gemini, OpenAI, or
 # Anthropic API key (their bill, held only in this session's server memory).

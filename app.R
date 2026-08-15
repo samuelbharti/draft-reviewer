@@ -39,9 +39,14 @@ organic_theme <- bs_theme(
   "border-radius" = "0.9rem",
   "card-border-radius" = "1rem"
 ) |>
-  bs_add_rules(
-    ".card, .sidebar, .navbar { box-shadow: 0 2px 10px rgba(58, 46, 38, 0.08); }"
-  )
+  bs_add_rules(c(
+    ".card, .sidebar, .navbar { box-shadow: 0 2px 10px rgba(58, 46, 38, 0.08); }",
+    # The page's <main> is a flex column with a 1rem gap and 1rem bottom
+    # padding, so the footer needs negative margins to sit tight instead of
+    # floating in a ~60px band.
+    ".app-footer { font-size: 0.75rem; line-height: 1.4; padding: 0;",
+    "  margin-top: -0.75rem; margin-bottom: -0.5rem; }"
+  ))
 
 ui <- page_navbar(
   title = "Content review",
@@ -92,6 +97,25 @@ ui <- page_navbar(
       "Assistant",
       icon = icon("comments"),
       class = "btn-sm btn-outline-primary my-1"
+    )
+  ),
+  footer = div(
+    class = "app-footer text-center text-muted",
+    HTML("&copy; 2026 "),
+    tags$a(
+      href = "https://samuelbharti.com",
+      target = "_blank",
+      rel = "noopener",
+      class = "link-secondary",
+      "Samuel Bharti"
+    ),
+    " · ",
+    tags$a(
+      href = "https://github.com/samuelbharti/draft-reviewer/blob/main/LICENSE",
+      target = "_blank",
+      rel = "noopener",
+      class = "link-secondary",
+      "MIT license"
     )
   )
 )

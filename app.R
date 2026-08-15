@@ -89,7 +89,7 @@ ui <- page_navbar(
     )
   ),
   footer = div(
-    class = "text-center text-muted small py-3",
+    class = "text-center text-muted small py-1",
     HTML("&copy; 2026 "),
     tags$a(
       href = "https://samuelbharti.com",

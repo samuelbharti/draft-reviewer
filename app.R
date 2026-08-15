@@ -3,6 +3,7 @@ library(bslib)
 source("helpers.R")
 source("review_tools.R")
 source("modules/byok_chat_mod.R")
+source("how_to.R")
 
 STATUS_COLORS <- c(
   pending = "secondary",
@@ -78,6 +79,11 @@ ui <- page_navbar(
       ),
       uiOutput("main_panel")
     )
+  ),
+  nav_panel(
+    title = "How to",
+    value = "how_to",
+    how_to_page()
   ),
   nav_spacer(),
   nav_item(

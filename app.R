@@ -87,6 +87,25 @@ ui <- page_navbar(
       icon = icon("comments"),
       class = "btn-sm btn-outline-primary my-1"
     )
+  ),
+  footer = div(
+    class = "text-center text-muted small py-3",
+    HTML("&copy; 2026 "),
+    tags$a(
+      href = "https://samuelbharti.com",
+      target = "_blank",
+      rel = "noopener",
+      class = "link-secondary",
+      "Samuel Bharti"
+    ),
+    " · ",
+    tags$a(
+      href = "https://github.com/samuelbharti/draft-reviewer/blob/main/LICENSE",
+      target = "_blank",
+      rel = "noopener",
+      class = "link-secondary",
+      "MIT license"
+    )
   )
 )
 

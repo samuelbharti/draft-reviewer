@@ -1,4 +1,4 @@
-# draft-review-app
+# draft-reviewer
 
 I write blog posts and social posts as Markdown files. I built this local
 Shiny app to review those drafts in the browser instead of in an editor.
